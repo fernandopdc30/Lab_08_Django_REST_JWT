@@ -1,0 +1,273 @@
+{
+	"info": {
+		"_postman_id": "60c3e77f-f577-4b39-b75e-2c5e16b7e657",
+		"name": "iw",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43575812"
+	},
+	"item": [
+		{
+			"name": "listar cursos",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "CREAR CURSO",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"curriculum\": 2023,\r\n  \"year\": 3,\r\n  \"semester\": 5,\r\n  \"code\": \"CUR405\",\r\n  \"name\": \"como usar rest\",\r\n  \"acronym\": \"PROG-WEB\",\r\n  \"credits\": 4.0,\r\n  \"theory_hours\": 2.0,\r\n  \"practice_hours\": 2.0,\r\n  \"laboratory_hours\": 2.0,\r\n  \"laboratory\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/courses/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"courses",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREAR PROFESOR",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"names\": \"Juan Carlos\",\r\n  \"father_surname\": \"Gomez Boza\",\r\n  \"mother_surname\": \"López\",\r\n  \"email\": \"juan.gomez@universidad.edu\",\r\n  \"phone\": \"+51987654321\",\r\n  \"show_phone\": true\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/teachers/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"teachers",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREAR ESTUDIANTE",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cui\": 20220001,\r\n  \"names\": \"Marycielo\",\r\n  \"father_surname\": \"Bedoya\",\r\n  \"mother_surname\": \"Pinto\",\r\n  \"email\": \"marycielo.bedoya@estudiante.edu\",\r\n  \"phone\": \"+51987123456\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/students/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"students",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREAR CARGA DE TRABAJO",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"course\": 2,\r\n  \"group\": \"A\",\r\n  \"laboratory\": \"lab01\",\r\n  \"capacity\": 25,\r\n  \"teacher\": 2\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/workloads/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"workloads",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar carga de trabajo",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "crear inscripcion",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/inscriptions/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"inscriptions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "mostrar estudiantes",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "ACTUALIZAR PROFESOR",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"names\": \"Juan Carlos\",\r\n  \"father_surname\": \"García\",\r\n  \"mother_surname\": \"López\",\r\n  \"email\": \"juancarlos.actualizado@universidad.edu\",\r\n  \"phone\": \"+51987654321\",\r\n  \"show_phone\": false\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/teachers/1/\n",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"teachers",
+						"1",
+						"\n"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar profesores",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/teachers/\n",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"teachers",
+						"\n"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "borrar profesor",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/teachers/1/\n",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"teachers",
+						"1",
+						"\n"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
