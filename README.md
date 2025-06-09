@@ -151,7 +151,7 @@ Si no envías un token válido, obtendrás `401 Unauthorized`.
 
 ---
 
-## ✍ Autora
+## ✍ Autor
 
 **Fernando Perez Del Castillo**  
 GitHub: https://github.com/fernandopdc30
