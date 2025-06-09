@@ -18,6 +18,11 @@ from .serializers import (
     WorkloadSerializer, InscriptionSerializer
 )
 
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+
+from rest_framework import viewsets
 
 # =============================================================================
 # COURSE VIEWS
@@ -30,6 +35,7 @@ class CourseListCreateView(generics.ListCreateAPIView):
     """
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+    permission_classes = [IsAuthenticated] 
 
 
 class CourseDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -41,6 +47,7 @@ class CourseDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Course.objects.all()
     serializer_class = CourseDetailSerializer
+    permission_classes = [IsAuthenticated] 
 
 
 # =============================================================================
@@ -54,6 +61,7 @@ class TeacherListCreateView(generics.ListCreateAPIView):
     """
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
+    permission_classes = [IsAuthenticated] 
 
 
 class TeacherDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -65,6 +73,7 @@ class TeacherDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
+    permission_classes = [IsAuthenticated] 
 
 
 # =============================================================================
@@ -78,6 +87,7 @@ class StudentListCreateView(generics.ListCreateAPIView):
     """
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+    permission_classes = [IsAuthenticated] 
 
 
 class StudentDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -89,6 +99,7 @@ class StudentDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Student.objects.all()
     serializer_class = StudentDetailSerializer
+    permission_classes = [IsAuthenticated] 
 
 
 # =============================================================================
@@ -144,6 +155,10 @@ class InscriptionDetailView(generics.RetrieveUpdateDestroyAPIView):
 # =============================================================================
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def vista_protegida(request):
+    return Response({"mensaje": f"Hola {request.user.username}, estás autenticado."})
+
 def course_statistics(request):
     """
     Vista personalizada para estadísticas de cursos
@@ -178,3 +193,4 @@ class StudentsByWorkloadView(APIView):
                 {'error': 'Workload not found'}, 
                 status=status.HTTP_404_NOT_FOUND
             )
+        

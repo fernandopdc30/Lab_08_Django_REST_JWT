@@ -2,6 +2,7 @@
 from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
+from rest_framework.routers import DefaultRouter
 
 urlpatterns = [
     # Course URLs
@@ -27,6 +28,8 @@ urlpatterns = [
     # Custom endpoints
     path('api/courses/statistics/', views.course_statistics, name='course-statistics'),
     path('api/workloads/<int:workload_id>/students/', views.StudentsByWorkloadView.as_view(), name='workload-students'),
+
+    path('protegida/', views.vista_protegida),
 ]
 
 # Permite formato de sufijo en URLs (ej: .json, .api)
