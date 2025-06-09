@@ -1,122 +1,175 @@
-# PRACTICA-REST - API REST para gestión académica
+# PRACTICA-REST - API REST para gestión académica con autenticación JWT 🔐
 
-Este proyecto demuestra cómo usar un API REST para gestionar cursos, profesores, estudiantes, cargas de trabajo e inscripciones.
+Este proyecto demuestra cómo usar un API REST para gestionar cursos, profesores, estudiantes, cargas de trabajo e inscripciones, ahora protegido con autenticación mediante **JSON Web Tokens (JWT)**.
+
+---
 
 ## 🚀 Requisitos previos
 
-- Python instalado
-- `pip install requests` (si se usará `test_api_examples.py`)
-- Servidor Django corriendo en:
-http://127.0.0.1:8000/
-- Base de datos migrada y con modelos activos
+- Python 3.8 o superior
+- pip
+- Git
 - Postman (opcional para probar endpoints)
 
 ---
 
-## 📁 Colección Postman
+## ⚙️ Instalación y configuración
 
-Se incluye el archivo `iw.postman_collection.json` que puede importarse directamente en Postman para probar los siguientes endpoints:
+### 1. Clonar el repositorio
 
-1. **Listar Cursos**
- - `GET http://127.0.0.1:8000/api/courses/`
+```bash
+git clone https://github.com/fernandopdc30/Lab_08_Django_REST_JWT
+cd Lab_08_Django_REST_JWT
 
-2. **Crear Curso**
- - `POST http://127.0.0.1:8000/api/courses/`
- - JSON de ejemplo:
-   ```json
-   {
-     "curriculum": 2023,
-     "year": 3,
-     "semester": 5,
-     "code": "CUR405",
-     "name": "como usar rest",
-     "acronym": "PROG-WEB",
-     "credits": 4.0,
-     "theory_hours": 2.0,
-     "practice_hours": 2.0,
-     "laboratory_hours": 2.0,
-     "laboratory": true
-   }
-   ```
+cd django-enrollments
+```
 
-3. **Crear Profesor**
- - `POST http://127.0.0.1:8000/api/teachers/`
- - JSON de ejemplo:
-   ```json
-   {
-     "names": "Juan Carlos",
-     "father_surname": "Gomez Boza",
-     "mother_surname": "López",
-     "email": "juan.gomez@universidad.edu",
-     "phone": "+51987654321",
-     "show_phone": true
-   }
-   ```
+### 2. Crear entorno virtual e instalar dependencias
 
-4. **Actualizar Profesor**
- - `PUT http://127.0.0.1:8000/api/teachers/1/`
- - JSON de ejemplo:
-   ```json
-   {
-     "names": "Juan Carlos",
-     "father_surname": "García",
-     "mother_surname": "López",
-     "email": "juancarlos.actualizado@universidad.edu",
-     "phone": "+51987654321",
-     "show_phone": false
-   }
-   ```
+```bash
+python -m venv venv
+source venv/bin/activate  # En Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
 
-5. **Eliminar Profesor**
- - `DELETE http://127.0.0.1:8000/api/teachers/1/`
+Si no existe requirements.txt, puedes generarlo así:
 
-6. **Crear Estudiante**
- - `POST http://127.0.0.1:8000/api/students/`
- - JSON de ejemplo:
-   ```json
-   {
-     "cui": 20220001,
-     "names": "Marycielo",
-     "father_surname": "Bedoya",
-     "mother_surname": "Pinto",
-     "email": "marycielo.bedoya@estudiante.edu",
-     "phone": "+51987123456"
-   }
-   ```
+```bash
+pip freeze > requirements.txt
+```
 
-7. **Crear Carga de Trabajo**
- - `POST http://127.0.0.1:8000/api/workloads/`
- - JSON de ejemplo:
-   ```json
-   {
-     "course": 2,
-     "group": "A",
-     "laboratory": "lab01",
-     "capacity": 25,
-     "teacher": 2
-   }
-   ```
+### 3. Aplicar migraciones y crear superusuario
 
-8. **Crear Inscripción**
- - `POST http://127.0.0.1:8000/api/inscriptions/`
- - JSON esperado:
-   ```json
-   {
-     "workload": 2,
-     "student": 1
-   }
-   ```
+```bash
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+```
+
+Sigue los pasos y crea un usuario con contraseña.
 
 ---
 
-## 📌 Notas adicionales
+## 🔐 Autenticación con JWT
 
-- Asegúrese de que los IDs utilizados (por ejemplo `teacher: 2`, `course: 2`, etc.) existan previamente.
-- Puede usar el archivo `test_api_examples.py` para automatizar las pruebas por consola.
+Se ha implementado JWT con `djangorestframework-simplejwt`.
+
+### 1. Obtener un token JWT
+
+Realiza un POST a:
+
+```
+POST http://127.0.0.1:8000/api/token/
+```
+
+Con el siguiente JSON en el body (usa el usuario que creaste):
+
+```json
+{
+  "username": "fer",
+  "password": "fer123"
+}
+```
+
+Respuesta esperada:
+
+```json
+{
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1..."
+}
+```
+
+### 2. Usar el token para acceder a los endpoints
+
+En Postman, añade a la pestaña Authorization:
+- **Tipo:** Bearer Token
+- **Token:** pega el valor del campo `access` (sin comillas)
+
+O directamente en headers:
+
+```
+Authorization: Bearer TU_TOKEN_AQUI
+```
+
+
+## 📁 Endpoints disponibles
+
+Todos los siguientes endpoints ahora requieren autenticación con JWT:
+
+- **Cursos**: `GET/POST` → `/api/courses/`
+- **Profesores**: `GET/POST/PUT/DELETE` → `/api/teachers/`
+- **Estudiantes**: `GET/POST` → `/api/students/`
+- **Cargas de Trabajo**: `GET/POST` → `/api/workloads/`
+- **Inscripciones**: `GET/POST` → `/api/inscriptions/`
+
+Si no envías un token válido, obtendrás `401 Unauthorized`.
+
+---
+
+## 📁 Ejemplos de JSON para probar
+
+### Crear Curso
+
+```json
+{
+  "curriculum": 2023,
+  "year": 3,
+  "semester": 5,
+  "code": "CUR405",
+  "name": "como usar rest",
+  "acronym": "PROG-WEB",
+  "credits": 4.0,
+  "theory_hours": 2.0,
+  "practice_hours": 2.0,
+  "laboratory_hours": 2.0,
+  "laboratory": true
+}
+```
+
+### Crear Profesor
+
+```json
+{
+  "names": "Juan Carlos",
+  "father_surname": "Gomez Boza",
+  "mother_surname": "López",
+  "email": "juan.gomez@universidad.edu",
+  "phone": "+51987654321",
+  "show_phone": true
+}
+```
+---
+
+## ✅ Verificación rápida
+
+| Acción | Ruta | Token necesario |
+|--------|------|----------------|
+| Obtener token | `/api/token/` | ❌ |
+| Listar cursos | `/api/courses/` | ✅ |
+| Crear profesor | `/api/teachers/` | ✅ |
 
 ---
 
 ## ✍ Autora
 
-Marycielo Bedoya Pinto  
-GitHub: [@mary1508](https://github.com/mary1508)
+**Fernando Perez Del Castillo**  
+GitHub: https://github.com/fernandopdc30
+
+---
+
+## 🛠 Tecnologías usadas
+
+- Django
+- Django REST Framework
+- SimpleJWT
+- SQLite (por defecto)
+
+---
+
+## 📹 Video demostración
+
+Se incluye video (solo para el docente) en el que se muestra:
+- Acceso con JWT
+- Comprobación con y sin token
+- Endpoints funcionando en Postman
